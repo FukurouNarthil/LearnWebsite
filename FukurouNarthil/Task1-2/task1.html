@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<!--viewport的知识参考此网址：-->
+<!--initial-scale 初始的缩放比例-->
+<!--minimum-scale 允许用户缩放到的最小比例-->
+<!--maximum-scale 允许用户缩放到的最大比例-->
+<!--user-scalable 用户是否可以手动缩放-->
+<meta name="format-detection" content="telephone=no" />
+<!--一般情况下，IOS和Android系统都会默认某长度内的数字为电话号码，所以需要取消-->
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--指定iphone中safari顶端的状态条的样式-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!--允许全屏模式浏览，隐藏浏览器导航栏-->
+<style>
+	body{font-size: 62.5%; font-family: "Microsoft YaHei"; overflow-x:hidden; overflow-y: auto;}
+	.viewport{max-width: 640px; min-width: 300px; margin: 0 auto; }
+	.navigation{max-width: 640px; min-width: 300px; margin: 0 auto; height: 7%; border-bottom: 1px solid #C7C0C0;}
+	.navigation div{display: inline;}
+	#logo {width:27%;}
+	#logo img {width: 27%; }
+	#search{width: 63%; height:100%; float:right;}
+	.form-control{align-self: center; margin-left: -30px; margin-top: 20px;}
+	
+	.newsColumn{max-width: 640px; min-width: 300px; margin: 0 auto; height: 40px; }
+	.newsColumn li{float:left; list-style: none; width: 14.2%;}
+	
+	.player{max-width: 640px; min-width: 300px; margin: 0 auto; height: 200px;}
+	.player ul{list-style-type: none;}
+	.player img{width: 90%;}
+	.slider-num{position: absolute; right: 5px; bottom: 5px;}
+	
+	.newsList{max-width: 640px; min-width: 300px; margin: 0 auto; height: 300px; position: absolute; top: 600px;
+	left: 211px;}
+	.newsList ul{list-style-type: none;}
+	.newsList img{width: 108%;}
+</style>
+</head>
+
+<body>
+<!--导航栏-->
+<div class="navigation">
+	<div id="logo">
+		<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509686514168&di=25ebd4ecb8a70f910eab33b85783f140&imgtype=0&src=http%3A%2F%2Fcdn.huodongxing.com%2Ffile%2F20150119%2F119CA18D8AF53B272EFDEEEC5F7AFF031B%2F30501844603015620.jpg" />	
+	</div>
+	<div id="search">
+		<input type="text" class="form-control" placeholder="请输入检索关键字">
+        	           <span class="input-group-btn">
+            	       	<button class="btn btn-primary">检索</button>
+                	   </span>
+	</div>
+</div>
+
+<!--不同新闻版块指南-->
+<div class="newsColumn">
+	<ul>
+	<li>头条</li>
+	<li>推荐</li>
+	<li>视频</li>
+	<li>北京</li>
+	<li>要闻</li>
+	<li>娱乐</li>
+	<li>+</li>
+</ul>
+</div>
+
+<!--轮播条-->
+<!--参考代码来源于脚本之家-->
+<div class="player">
+	<ul class="slider-main">
+	<!--需要轮播的新闻图片-->
+		<li class="slider-panel"> 
+  			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937605&di=26050f87b388ce97ad4f4f9516473e86&imgtype=0&src=http%3A%2F%2Fwww.kf.cn%2Fkfrb%2Frmp%2F1%2F1%2F2015-03%2F23%2F02%2Fres04_attpic_brief.jpg">
+  		</li> 
+  		<li class="slider-panel"> 
+  			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937605&di=a9071dcc29f52e1fd8d04b1461cb35ef&imgtype=0&src=http%3A%2F%2Fnpaper.dtnews.cn%2FFile%2Fupfile%2F2014-06-30-01-44-38.jpg">
+  		</li> 
+  		<li class="slider-panel"> 
+
+ 		<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937603&di=1e1cb5802d9046f91768970689d80395&imgtype=0&src=http%3A%2F%2Fi6.hexun.com%2F2017-02-02%2F187974899.jpg">
+  		</li>
+ 	</ul> 
+    <ul class="slider-num">
+    <!--轮播画面下方的数字-->
+    	<li class="on">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</div>
+
+<!--新闻列表-->
+<div class="newsList">
+	<ul class="news">
+	<!--不需要轮播的新闻图片-->
+		<li class="news-pic"> 
+  			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937605&di=26050f87b388ce97ad4f4f9516473e86&imgtype=0&src=http%3A%2F%2Fwww.kf.cn%2Fkfrb%2Frmp%2F1%2F1%2F2015-03%2F23%2F02%2Fres04_attpic_brief.jpg">
+  		</li> 
+  		<li class="news-pic"> 
+  			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937605&di=a9071dcc29f52e1fd8d04b1461cb35ef&imgtype=0&src=http%3A%2F%2Fnpaper.dtnews.cn%2FFile%2Fupfile%2F2014-06-30-01-44-38.jpg">
+  		</li> 
+  		<li class="news-pic"> 
+
+ 		<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509982937603&di=1e1cb5802d9046f91768970689d80395&imgtype=0&src=http%3A%2F%2Fi6.hexun.com%2F2017-02-02%2F187974899.jpg">
+  		</li>
+ 	</ul>
+</div>
+
+<!--下导航栏-->
+<div class="bottom_navigation"></div>
+</body>
+</html>
