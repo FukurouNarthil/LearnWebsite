@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script type="text/javascript" src="scripts/jquery-1.9.1.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<!--viewport的知识参考此网址：-->
+<!--initial-scale 初始的缩放比例-->
+<!--minimum-scale 允许用户缩放到的最小比例-->
+<!--maximum-scale 允许用户缩放到的最大比例-->
+<!--user-scalable 用户是否可以手动缩放-->
+<meta name="format-detection" content="telephone=no" />
+<!--一般情况下，IOS和Android系统都会默认某长度内的数字为电话号码，所以需要取消-->
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--指定iphone中safari顶端的状态条的样式-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!--允许全屏模式浏览，隐藏浏览器导航栏-->
+<style type="text/css">
+	body{font-size: 62.5%; font-family: "Microsoft YaHei"; overflow-x:hidden; overflow-y: auto;}
+	.viewport{max-width: 640px; min-width: 300px; margin: 0 auto; }
+	.navigation{max-width: 640px; min-width: 300px; margin: 0 auto; height: 7%; border-bottom: 1px solid #C7C0C0;}
+	.navigation div{display: inline;}
+	.logo {width:27%; height: 7%;}
+	.logo img {width: 27%; height: 7%;}
+	#search{width: 63%; height:100%; float:right;}
+	.form-control{align-self: center; margin-left: -30px; margin-top: 20px;}
+	
+	.newsColumn{max-width: 640px; min-width: 300px; margin: 0 auto; height: 40px; }
+	.newsColumn li{float:left; list-style: none; width: 14.2%;}
+	
+	.slider, .slider-panel img, .slider-extra {
+		width:600px;
+		height: 371px;
+	}
+	.slider {
+		text-align: center;
+		margin: 30px auto;
+		position: relative;
+	}
+	.slider-panel, .slider-nav, .slider-pre, .slider-next {
+		position: absolute;
+		z-index: 8;
+	}
+	.slider-panel {
+		position: absolute;
+	}
+	.slider-panel img {
+		border: none;
+	}
+	.slider-extra {
+		position: relative;
+	}
+	.slider-nav {
+		margin-left: -51px;
+		position: absolute;
+		left: 50%;
+		bottom: 4px;
+	}
+	.slider-nav li {
+		background: #3e3e3e;
+		border-radius: 50%;
+		color: #fff;
+		cursor: pointer;
+		margin: 0 2px;
+		overflow: hidden;
+		text-align: center;
+		display: inline-block;
+		height: 18px;
+		line-height: 18px;
+		width: 18px;
+	}
+	.slider-nav .slider-item-selected {
+		background: blue;
+	}
+	.slider-page a{
+		background: rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000,endColorstr=#33000000);
+		color: #fff;
+		text-align: center;
+		display: block;
+		font-family: "simsun";
+		font-size: 22px;
+		width: 28px;
+		height: 62px;
+		line-height: 62px;
+		margin-top: -31px;
+		position: absolute;
+		top: 50%;
+	}
+	.slider-page a:HOVER {
+		background: rgba(0, 0, 0, 0.4);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000);
+	}
+	.slider-next {
+		left: 100%;
+		margin-left: -28px;
+	}
+	
+	.newsList{max-width: 640px; min-width: 300px; margin-top: 50px; height: 300px; margin-left: 265px; align-self: center;}
+	.newsList ul{list-style-type: none;}
+	.newsList li{margin-bottom: 20px;}
+	.newsList img{width: 108%;}
+</style>
+
+<!--轮播代码-->
+<script type="text/javascript">
+	$(document).ready(function() {
+		var length,
+			currentIndex = 0,
+			interval,
+			hasStarted = false, //是否已经开始轮播
+			t = 3000; //轮播时间间隔
+		length = $('.slider-panel').length;
+		
+		//将除了第一张图片隐藏
+		$('.slider-panel:not(:first)').hide();
+		//将第一个slider-item设为激活状态
+		$('.slider-item:first').addClass('slider-item-selected');
+		//隐藏向前、向后翻按钮
+		$('.slider-page').hide();
+		
+		//鼠标上悬时显示向前、向后翻按钮,停止滑动，鼠标离开时隐藏向前、向后翻按钮，开始滑动
+		$('.slider-panel, .slider-pre, .slider-next').hover(function() {
+			stop();
+			$('.slider-page').show();
+		}, function() {
+			$('.slider-page').hide();
+			start();
+		});
+		
+		$('.slider-item').hover(function(e) {
+			stop();
+			var preIndex = $(".slider-item").filter(".slider-item-selected").index();
+			currentIndex = $(this).index();
+			play(preIndex, currentIndex);
+		}, function() {
+			start();
+		});
+		
+		$('.slider-pre').unbind('click');
+		$('.slider-pre').bind('click', function() {
+			pre();
+		});
+		$('.slider-next').unbind('click');
+		$('.slider-next').bind('click', function() {
+			next();
+		});
+		
+		/**
+		 * 向前翻页
+		 */
+		function pre() {
+			var preIndex = currentIndex;
+			currentIndex = (--currentIndex + length) % length;
+			play(preIndex, currentIndex);
+		}
+		/**
+		 * 向后翻页
+		 */
+		function next() {
+			var preIndex = currentIndex;
+			currentIndex = ++currentIndex % length;
+			play(preIndex, currentIndex);
+		}
+		/**
+		 * 从preIndex页翻到currentIndex页
+		 * preIndex 整数，翻页的起始页
+		 * currentIndex 整数，翻到的那页
+		 */
+		function play(preIndex, currentIndex) {
+			$('.slider-panel').eq(preIndex).fadeOut(500)
+				.parent().children().eq(currentIndex).fadeIn(1000);
+			$('.slider-item').removeClass('slider-item-selected');
+			$('.slider-item').eq(currentIndex).addClass('slider-item-selected');
+		}
+		
+		/**
+		 * 开始轮播
+		 */
+		function start() {
+			if(!hasStarted) {
+				hasStarted = true;
+				interval = setInterval(next, t);
+			}
+		}
+		/**
+		 * 停止轮播
+		 */
+		function stop() {
+			clearInterval(interval);
+			hasStarted = false;
+		}
+		
+		//开始轮播
+		start();
+	});
+</script>
+</head>
+
+<body>
+<!--导航栏-->
+<div class="navigation">
+	<div class="logo">
+		<img src="img/timg1.jpg" />	
+	</div>
+	<div id="search">
+		<input type="text" class="form-control" placeholder="请输入检索关键字">
+        	           <span class="input-group-btn">
+            	       	<button class="btn btn-primary">检索</button>
+                	   </span>
+	</div>
+</div>
+
+<!--不同新闻版块指南-->
+<div class="newsColumn">
+	<ul>
+	<li>头条</li>
+	<li>推荐</li>
+	<li>视频</li>
+	<li>北京</li>
+	<li>要闻</li>
+	<li>娱乐</li>
+	<li>+</li>
+</ul>
+</div>
+
+<!--轮播条-->
+<!--参考代码来源于脚本之家-->
+<!--查到要是要从后端获取图片是这个格式：-->
+<!--<img src="a" onclick="changeValidateImage();"/>-->
+<!--src指向的后台方法a，让它的返回response.getWriter().write(b);b就是读取的图片字节流-->
+<div class="slider">
+	<ul class="slider-main">
+	<!--需要轮播的新闻图片-->
+		<li class="slider-panel"> 
+  			<a href="www.baidu.com"><img src="img/IMG_20160719_101502(1).jpg" /></a>
+  		</li> 
+  		<li class="slider-panel"> 
+			<a href="www.baidu.com"><img src="img/IMG_20160719_101557.jpg" /></a>
+  		</li> 
+  		<li class="slider-panel"> 
+ 			<a href="www.baidu.com"><img src="img/IMG_20160719_101952(1).jpg" /></a>
+  		</li>
+ 	</ul> 
+   
+   
+	<div class="slider-extra">
+		<ul class="slider-nav">
+			<li class="slider-item">1</li>
+			<li class="slider-item">2</li>
+			<li class="slider-item">3</li>
+		</ul>
+		<div class="slider-page">
+			<a class="slider-pre" href="javascript:;;">&lt;</a>
+			<a class="slider-next" href="javascript:;;">&gt;</a>
+		</div>
+	</div>
+</div>
+
+<!--新闻列表-->
+<div class="newsList">
+	<ul class="news">
+	<!--不需要轮播的新闻图片-->
+		<li class="news-pic"> 
+  			<img src="img/IMG_20160727_153046_1469618470068.jpg" />
+  		</li> 
+  		<li class="news-pic"> 
+  			<img src="img/IMG_20160719_100243(1).jpg" />
+  		</li> 
+  		<li class="news-pic"> 
+
+ 		<img src="img/IMG_20160719_101952(1).jpg" />
+  		</li>
+ 	</ul>
+</div>
+
+<!--下导航栏-->
+<div class="bottom_navigation"></div>
+</body>
+</html>
