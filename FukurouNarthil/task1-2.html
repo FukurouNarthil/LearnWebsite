@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <title>无标题文档</title>
 <script type="text/javascript" src="scripts/jquery-1.9.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="./bootstrap/js/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--add angular here-->
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<!--add angular route-->
+<script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--viewport的知识参考此网址：-->
 <!--initial-scale 初始的缩放比例-->
@@ -19,14 +27,15 @@
 <style type="text/css">
 	body{font-size: 62.5%; font-family: "Microsoft YaHei"; overflow-x:hidden; overflow-y: auto;}
 	.viewport{max-width: 640px; min-width: 300px; margin: 0 auto; }
-	.navigation{max-width: 640px; min-width: 300px; margin: 0 auto; height: 7%; border-bottom: 1px solid #C7C0C0;}
+	.navigation{border-bottom: 1px solid #C7C0C0; height: 120px;}
 	.navigation div{display: inline;}
-	.logo {width:27%; height: 7%;}
-	.logo img {width: 27%; height: 7%;}
-	#search{width: 63%; height:100%; float:right;}
-	.form-control{align-self: center; margin-left: -30px; margin-top: 20px;}
+	.logo {width:27%; height: 100px; left: 50px;}
+	.logo img {width: 27%; height: 100px; position:absolute; left:50px;}
+	#search input{width: 43%; height:50px; position:absolute; top: 30px; right: 200px;}
+	#search button{width: 5%; height: 50px; position: absolute; top: 30px;right: 50px;}
 	
-	.newsColumn{max-width: 640px; min-width: 300px; margin: 0 auto; height: 40px; }
+	
+	.newsColumn{max-width: 640px; min-width: 300px; margin: 0 auto; height: 80px; font-size: 16px;}
 	.newsColumn li{float:left; list-style: none; width: 14.2%;}
 	
 	.slider, .slider-panel img, .slider-extra {
@@ -97,119 +106,33 @@
 		margin-left: -28px;
 	}
 	
-	.newsList{max-width: 640px; min-width: 300px; margin-top: 50px; height: 300px; margin-left: 265px; align-self: center;}
+	.newsList{margin-top: 40px; align-self: center;}
 	.newsList ul{list-style-type: none;}
 	.newsList li{margin-bottom: 20px;}
 	.newsList img{width: 108%;}
 </style>
 
 <!--轮播代码-->
-<script type="text/javascript">
-	$(document).ready(function() {
-		var length,
-			currentIndex = 0,
-			interval,
-			hasStarted = false, //是否已经开始轮播
-			t = 3000; //轮播时间间隔
-		length = $('.slider-panel').length;
-		
-		//将除了第一张图片隐藏
-		$('.slider-panel:not(:first)').hide();
-		//将第一个slider-item设为激活状态
-		$('.slider-item:first').addClass('slider-item-selected');
-		//隐藏向前、向后翻按钮
-		$('.slider-page').hide();
-		
-		//鼠标上悬时显示向前、向后翻按钮,停止滑动，鼠标离开时隐藏向前、向后翻按钮，开始滑动
-		$('.slider-panel, .slider-pre, .slider-next').hover(function() {
-			stop();
-			$('.slider-page').show();
-		}, function() {
-			$('.slider-page').hide();
-			start();
-		});
-		
-		$('.slider-item').hover(function(e) {
-			stop();
-			var preIndex = $(".slider-item").filter(".slider-item-selected").index();
-			currentIndex = $(this).index();
-			play(preIndex, currentIndex);
-		}, function() {
-			start();
-		});
-		
-		$('.slider-pre').unbind('click');
-		$('.slider-pre').bind('click', function() {
-			pre();
-		});
-		$('.slider-next').unbind('click');
-		$('.slider-next').bind('click', function() {
-			next();
-		});
-		
-		/**
-		 * 向前翻页
-		 */
-		function pre() {
-			var preIndex = currentIndex;
-			currentIndex = (--currentIndex + length) % length;
-			play(preIndex, currentIndex);
-		}
-		/**
-		 * 向后翻页
-		 */
-		function next() {
-			var preIndex = currentIndex;
-			currentIndex = ++currentIndex % length;
-			play(preIndex, currentIndex);
-		}
-		/**
-		 * 从preIndex页翻到currentIndex页
-		 * preIndex 整数，翻页的起始页
-		 * currentIndex 整数，翻到的那页
-		 */
-		function play(preIndex, currentIndex) {
-			$('.slider-panel').eq(preIndex).fadeOut(500)
-				.parent().children().eq(currentIndex).fadeIn(1000);
-			$('.slider-item').removeClass('slider-item-selected');
-			$('.slider-item').eq(currentIndex).addClass('slider-item-selected');
-		}
-		
-		/**
-		 * 开始轮播
-		 */
-		function start() {
-			if(!hasStarted) {
-				hasStarted = true;
-				interval = setInterval(next, t);
-			}
-		}
-		/**
-		 * 停止轮播
-		 */
-		function stop() {
-			clearInterval(interval);
-			hasStarted = false;
-		}
-		
-		//开始轮播
-		start();
-	});
-</script>
+<script>
+			$(function(){
+				$('.carousel').carousel({
+					interval: 2000,
+					wrap: true
+				})
+			})
+		</script>
 </head>
 
-<body>
+<body ng-app='routingDemoApp' ng-controller="JumpController">
 <!--导航栏-->
 <div class="navigation">
 	<div class="logo">
 		<img src="img/timg1.jpg" />	
 	</div>
-	<div id="search">
+	<form id="search">
 		<input type="text" class="form-control" placeholder="请输入检索关键字">
-        	           <span class="input-group-btn">
-            	       	<button class="btn btn-primary">检索</button>
-                	   </span>
-	</div>
+		<button class="btn btn-primary">检索</button>	 
+	</form>
 </div>
 
 <!--不同新闻版块指南-->
@@ -226,56 +149,60 @@
 </div>
 
 <!--轮播条-->
-<!--参考代码来源于脚本之家-->
-<!--查到要是要从后端获取图片是这个格式：-->
-<!--<img src="a" onclick="changeValidateImage();"/>-->
-<!--src指向的后台方法a，让它的返回response.getWriter().write(b);b就是读取的图片字节流-->
-<div class="slider">
-	<ul class="slider-main">
-	<!--需要轮播的新闻图片-->
-		<li class="slider-panel"> 
-  			<a href="www.baidu.com"><img src="img/IMG_20160719_101502(1).jpg" /></a>
-  		</li> 
-  		<li class="slider-panel"> 
-			<a href="www.baidu.com"><img src="img/IMG_20160719_101557.jpg" /></a>
-  		</li> 
-  		<li class="slider-panel"> 
- 			<a href="www.baidu.com"><img src="img/IMG_20160719_101952(1).jpg" /></a>
-  		</li>
- 	</ul> 
-   
-   
-	<div class="slider-extra">
-		<ul class="slider-nav">
-			<li class="slider-item">1</li>
-			<li class="slider-item">2</li>
-			<li class="slider-item">3</li>
-		</ul>
-		<div class="slider-page">
-			<a class="slider-pre" href="javascript:;;">&lt;</a>
-			<a class="slider-next" href="javascript:;;">&gt;</a>
+<div id="myCarousel" class="carousel slide" ng-app='routingDemoApp'>
+			<pl class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</pl>
+			<div class="carousel-inner">
+				<div class="item active">
+					<a href="#/news"><img src="https://static1.bcjiaoyu.com/bootstrap-banner01.jpg" alt="1"></a>
+					<div class="carousel-caption">news1</div>
+				</div>
+				<div class="item">
+					<a href="#/news"><img src="https://static1.bcjiaoyu.com/bootstrap-banner02.jpg" alt="2"></a>
+					<div class="carousel-caption">news2</div>
+				</div>
+				<div class="item">
+					<a href="#/news"><img src="https://static1.bcjiaoyu.com/bootstrap-banner03.jpg" alt="3"></a>
+					<div class="carousel-caption">news3</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
 
 <!--新闻列表-->
-<div class="newsList">
+<div class="newsList" ng-app='routingDemoApp'>
 	<ul class="news">
 	<!--不需要轮播的新闻图片-->
 		<li class="news-pic"> 
-  			<img src="img/IMG_20160727_153046_1469618470068.jpg" />
-  		</li> 
+  			<a ng-click="jump('news.html')"><img src="img/IMG_20160727_153046_1469618470068.jpg"/></a> 
+  		</li>
   		<li class="news-pic"> 
-  			<img src="img/IMG_20160719_100243(1).jpg" />
-  		</li> 
+  		<a href="#/news" class="btn btn-default"><img src="img/IMG_20160719_100243(1).jpg" /></a> 
+  		</li>
   		<li class="news-pic"> 
-
- 		<img src="img/IMG_20160719_101952(1).jpg" />
+		
+ 		<a href="#/news"><img src="img/IMG_20160719_101952(1).jpg" /></a>
   		</li>
  	</ul>
 </div>
 
 <!--下导航栏-->
 <div class="bottom_navigation"></div>
+<div ng-view style="font-size: 28px;"></div>
+
+<script>
+            angular.module('routingDemoApp',['ngRoute'])
+	    .config(['$routeProvider', function($routeProvider){
+                $routeProvider
+                .when('/news',{templateUrl:"var/www/html/news.html", controller:'JumpController'})
+            }])
+	    .controller('JumpController',["$scope", "location", function($scope, $location){
+		$scope.goToIndex = function(){$location.path("/news")} 
+		}]
+            ;
+
+        </script>
 </body>
 </html>
