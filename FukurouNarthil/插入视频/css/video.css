@@ -1,0 +1,129 @@
+	#videoPlayer {
+		text-align: center;
+        width: 1080px;
+		margin: auto;
+		top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+	}
+	#demo {
+		object-fit: cover;  
+    	object-position: center center;
+	}
+	#play {
+		border: none;
+		background-color: transparent;
+		color: #d6d6d6;
+		height: 60px;
+		width: 60px;
+		align-self: center;
+		position: absolute;
+		top: 220px;
+		left: 48%;
+		padding: 0;
+	}
+	#videoControls {
+		align-self: center;
+		width: 880px;
+		height: 40px;
+		position: absolute;
+		top: 455px;
+		background-color: black;
+		margin-left: 100px;
+	}
+	#playBtn {
+		float: left;
+		position: absolute;
+		height: 40px;
+		font-size: 20px;
+		top: 0px;
+		left: 10px;
+		color: #d6d6d6;
+		background-color: transparent;
+		border: none;
+	}
+	#playBtn:hover {
+		color: #436eee;
+	}
+	#fullScreenBtn {
+		float: right;
+		position: absolute;
+		height: 40px;
+		font-size: 20px;
+		top: 0;
+		right: 10px;
+		color: #d6d6d6;
+		background-color: transparent;
+		border: none;
+	}
+	#fullScreenBtn:hover {
+		color: #436eee;
+	}
+	#soundControl {
+		float: right;
+		position: absolute;
+		height: 40px;
+		font-size: 20px;
+		top: 0;
+		right: 220px;
+		color: #d6d6d6;
+		background-color: transparent;
+		border: none;
+	}
+	#soundControl:hover {
+		color: #436eee;
+	}
+	#audioWrap {
+		position: absolute;
+		left: 75%;
+		width: 150px;
+		height: 40px;
+		top: 0;
+	}
+	#soundWrap {
+		background-color: #d6d6d6;
+		position: absolute;
+		width: 150px;
+		height: 4px;
+		margin-top: 18px;
+	}
+	#audioWrap:hover {
+		cursor: pointer;
+	}
+	#progressWrap{
+		width: 500px;
+		position: absolute;
+		left: 50px;
+        height: 40px;
+        cursor: pointer;
+    }
+    #playProgress{
+        background-color: #d6d6d6;
+        width: 0px;
+        height: 4px;
+        margin-top: 18px;
+        border-right: 2px solid none;
+    }
+    #showProgress{
+        background-color: transparent;
+        margin-top: -2px;
+        font-weight: 600;
+        font-size: 12px;
+        color: #d6d6d6;
+        line-height: 10px;
+        position: absolute;
+        left: 102%;
+    }
+	.glyphicon-play-circle {
+		font-size: 50px;
+	}
+	.glyphicon-play {
+		font-size: 20px;
+	}
+	.gyphicon-fullscreen {
+		font-size: 20px;
+	}
+	.gyphicon-volume-up {
+		font-size: 20px;
+	}
